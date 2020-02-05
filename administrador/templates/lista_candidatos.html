@@ -1,0 +1,89 @@
+{% extends "otrabase.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="container" style="min-height: 350px;">
+	<hr>
+	<div class="row">
+
+		<div class="col-md-4">
+			<div class="card card-inverse card-success text-white rounded-0">
+				<h3 class="card-header h5">
+					<i class="fa fa-tasks g-font-size-default g-mr-5"></i> OFERTAS PUBLICADAS
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{ofertas}}</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse card-info text-white rounded-0">
+				<h3 class="card-header h5">
+					<i class="fa fa-tasks g-font-size-default g-mr-5"></i> OFERTAS ACTIVAS
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{ofertasA}}</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse g-bg-teal g-brd-teal text-white rounded-0">
+				<h3 class="card-header h5">
+					<i class="fa fa-tasks g-font-size-default g-mr-5"></i> OFERTAS INACTIVAS
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{ofertasD}}</h4>
+					
+				</div>
+			</div>
+		</div>	
+	</div>
+	<hr>
+	<div class="row">
+		
+		<div class="col-md-4">
+			<div class="card card-inverse g-bg-blue g-brd-blue text-white rounded-0">
+				<h3 class="card-header h5">
+					<i class="fa fa-tasks g-font-size-default g-mr-5"></i> PERSONAS REGISTRADAS
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{registrados}}</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse g-bg-lightred g-brd-lightred text-white rounded-0">
+				<h3 class="card-header h5">
+					<i class="fa fa-tasks g-font-size-default g-mr-5"></i> CANDIDATOS INGRESADOS AL CC
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{cc}}</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-inverse card-info  text-white rounded-0">
+				<h3 class="card-header h5">
+					<i class="fa fa-tasks g-font-size-default g-mr-5"></i>LISTADO DE APLICACION DE CANDIDATOS EN EL DIA
+				</h3>
+				<div class="card-block g-pa-15">
+					<h4 class="h5">{{candidatos}}</h4>
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock content %}
+{% block javascript %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+    });
+  </script>
+{% endblock javascript %}

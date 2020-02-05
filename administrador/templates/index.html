@@ -1,0 +1,974 @@
+
+{% load humanize %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CV - {{ solicitud.nombres }} {{ solicitud.primerapellido }}</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          font-weight: 300;
+          font-size: 12px;
+
+        }
+        @page {
+            margin: 0.25in 0.25in 0.5in 0.25in;
+            padding: 0;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+            
+        }
+        .bold {
+          font-weight: 600;
+        }
+        .light {
+          font-weight: 400;
+        }
+        .thin {
+          font-weight: 300;
+        }
+        .center {
+          text-align: center;
+        }
+        .left {
+          padding-left: 5px;
+          text-align: left;
+        }
+        .right {
+          text-align: right;
+        }
+        th, td {
+            text-align: center;
+            padding-top: 3px;
+        }
+        .table {
+          text-align: center;
+        }
+
+        .list-group {
+          padding-left: 0;
+          margin-bottom: 20px;
+        }
+        .list-group-item {
+          position: relative;
+          display: block;
+          padding: 10px 20px;
+          margin-bottom: -1px;
+          background-color: #fff;
+          border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body >
+  <div class=" center" >
+    <h1 class="thin" style="font-size: 2.5em; padding-top: 150px; padding-bottom: 100px;">SOLICITUD DE EMPLEO</h1>
+    <div style="padding-bottom: 150px;">
+      {% if solicitud.foto_usuario %}
+        <img src="{{ solicitud.foto_usuario.url }}"  alt="imagen" style="width: 200; height: 200;" >
+      {% else %}
+        <img src="/static/img/icon_user.png" alt="imagen" width="200" height="200">
+      {% endif %}
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">APELLIDOS</th>
+            <th class="bold">APELLIDO DE CASADA</th>
+            <th class="bold">NOMBRES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin">{{ solicitud.primerapellido }}</td>
+            {% if solicitud.apellidocasada %}
+              <td class="thin">{{solicitud.apellidocasada}}</td>
+            {% else %}
+              <td class="thin">No Aplica</td>
+            {% endif %}
+            <td class="thin">{{ solicitud.nombres }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th class="bold left"> DIRECCIÓN:</th>
+            <th class="bold left"> CONTACTOS:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="light left" style="border-right: 1px solid black;">{{solicitud.direcciondomicilio}}</td>
+            <td class="light left">Teléfono Celular: {{solicitud.celular}} <br> Teléfono Fijo: {{solicitud.telefonofijo}} <br> Correo Electrónico: {{solicitud.correo}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <br><br><br><br><br>
+    <h4 class="thin" style="font-size: 1.5em;">I. DATOS PERSONALES</h4>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRES</th>
+            <th class="bold">APELLIDOS</th>
+            <th class="bold">APELLIDO CASADA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin">{{ solicitud.nombres }}</td>
+            <td class="thin">{{ solicitud.primerapellido }}</td>
+            {% if solicitud.apellidocasada %}
+              <td class="thin">{{solicitud.apellidocasada}}</td>
+            {% else %}
+              <td class="thin">No Aplica</td>
+            {% endif %}
+            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">DIRECCIÓN</th>
+            <th class="bold">MUNICIPIO | DEPARTAMENTO</th>
+            <th class="bold">TELÉFONOS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.direcciondomicilio }}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.codmunicipiodomicilio.descripcionmunicipio }}, {{solicitud.coddepartamentodomicilio.descripciondepartamento }}</td>
+            <td class="thin">{{solicitud.celular}} | {{solicitud.telefonofijo}}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">FECHA NACIMIENTO</th>
+            <th class="bold">EDAD</th>
+            <th class="bold">ESTADO CIVIL</th>
+            <th class="bold">NACIONALIDAD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.fechanacimiento}}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.edad}}</td>
+            {% if solicitud.estadocivil == 'C' %}
+              <td class="thin">Casado (a)</td>
+            {% elif solicitud.estadocivil == 'S' %}
+              <td class="thin">Soltero (a)</td>
+            {% elif solicitud.estadocivil == 'D' %}
+              <td class="thin">Divorciado (a)</td>
+            {% elif solicitud.estadocivil == 'V' %}
+              <td class="thin">Viudo (a)</td>
+            {% else %}
+              <td class="thin">Unión Libre</td>
+            {% endif %}
+
+            <td class="thin" style="border-left: 1px solid black;">{{ solicitud.codpaisnacimiento.descripcionpais }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">PROFESIÓN U OFICIO</th>
+            <th class="bold">TARJETA DE IDENTIDAD</th>
+            <th class="bold">ENTENDIDA EN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.profesion }}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.identidad}}</td>
+            <td class="thin">{{ solicitud.codmunicipioidentidad.descripcionmunicipio }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">POSEE AUTOMOVIL</th>
+            <th class="bold">LICENCIA DE CONDUCIR</th>
+            <th class="bold">TIPO DE LICENCIA</th>
+            <th class="bold">TIENE POLIZA DE SEGURO</th>
+            <th class="bold">NOMBRE COMPAÑIA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if solicitud.automovil %}
+              <td class="thin" style="border-right: 1px solid black;">SI</td>
+            {% else %}
+              <td class="thin" style="border-right: 1px solid black;">SI</td>
+            {% endif %}
+
+            {% if solicitud.licencia %}
+              <td class="thin" style="border-right: 1px solid black;">SI</td>
+              
+              <td class="thin" style="border-right: 1px solid black;">{% if solicitud.liviana %} LIVIANA {% endif %} {% if solicitud.pesada %} - PESADA {% endif %} {% if solicitud.motocicleta %} - MOTOCICLETA {% endif %} </td>
+            {% else %}
+              <td class="thin" style="border-right: 1px solid black;">NO</td>
+              <td class="thin" style="border-right: 1px solid black;">NO APLICA</td>
+            {% endif %}
+
+            {% if solicitud.polizaseguro %}
+            <td class="thin" style="border-right: 1px solid black;">SI</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.companiapoliza}}</td>
+            {% else %}
+            <td class="thin" style="border-right: 1px solid black;">NO</td>
+            <td class="thin" style="border-right: 1px solid black;">NO APLICA</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">PRACTICA ALGÚN DEPORTE</th>
+            <th class="bold">QUE DEPORTE</th>
+            <th class="bold">DESDE QUE FECHA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if solicitud.deporte %}
+            <td class="thin" style="border-right: 1px solid black;">SI</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.tipodeporte}}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.fechadeporte}}</td>
+            {% else %}
+            <td class="thin" style="border-right: 1px solid black;">NO</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NO. AFILIACION IHSS</th>
+            <th class="bold">RTN</th>
+            <th class="bold">NO. DE PASAPORTE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.numeroihss %} {{solicitud.numeroihss}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.rtn %} {{solicitud.rtn}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.numeropasaporte %} {{solicitud.numeropasaporte}} {% else %} ** {% endif %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRES DE ORGANIZACIONES, CLUBES O ASOCIACIONES QUE USTED A PERTENECIDO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if lista_organizaciones %}
+              <td class="thin" style="border-right: 1px solid black;">{% for org in lista_organizaciones %} {{ org.nombre }}, {% endfor %}</td>
+            {% else %}
+              <td class="thin" style="border-right: 1px solid black;">NINGUNA</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <hr>
+    <h4 class="thin" style="font-size: 1.5em;">II. DATOS FAMILIARES</h4>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE DE PADRE</th>
+            <th class="bold" width="5%">EDAD</th>
+            <th class="bold">DOMICILIO</th>
+            <th class="bold">TELÉFONOS</th>
+            <th class="bold" width="10%">OCUPACIÓN</th>
+            <th class="bold">LUGAR Y DIRECCIÓN DONDE TRABAJA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.nombrespadre %} {{solicitud.nombrespadre}} {{solicitud.apellidospadre}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.edadpadre %} {{solicitud.edadpadre}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.domiciliopadre %} {{solicitud.domiciliopadre}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.telefonopadre %} {{solicitud.telefonopadre}} | {{solicitud.celularpadre}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.profesionpadre %} {{solicitud.profesionpadre}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" >{% if solicitud.direccionlaboralpadre %} {{solicitud.direccionlaboralpadre}} {% else %} ** {% endif %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE DE MADRE</th>
+            <th class="bold" width="5%">EDAD</th>
+            <th class="bold">DOMICILIO</th>
+            <th class="bold">TELÉFONOS</th>
+            <th class="bold" width="10%">OCUPACIÓN</th>
+            <th class="bold">LUGAR Y DIRECCIÓN DONDE TRABAJA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.nombresmadre %} {{solicitud.nombresmadre}} {{solicitud.apellidosmadre}} {% else %}  {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.edadmadre %} {{solicitud.edadmadre}} {% else %}  {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.domiciliomadre %} {{solicitud.domiciliomadre}} {% else %}  {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.telefonomadre %} {{solicitud.telefonomadre}} | {{solicitud.celularmadre}} {% else %}  {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.profesionmadre %} {{solicitud.profesionmadre}} {% else %}  {% endif %}</td>
+
+            <td class="thin" >{% if solicitud.direccionlaboralmadre %} {{solicitud.direccionlaboralmadre}} {% else %}  {% endif %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRES DE LOS HERMANOS</th>
+            <th class="bold" width="10%">EDAD</th>
+            <th class="bold">DOMICILIO</th>
+            <th class="bold">TELÉFONO</th>
+            <th class="bold">OCUPACIÓN</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% if hermano %}
+              {% for her in hermano %}
+              <tr>
+                <td class="thin" style="border-right: 1px solid black; ">{{her.nombrecompleto}}</td>
+                <td class="thin" style="border-right: 1px solid black; ">{{her.edad}}</td>
+                <td class="thin" style="border-right: 1px solid black; ">{{her.domicilio}}</td>
+                <td class="thin" style="border-right: 1px solid black; ">{{her.telefono}}</td>
+                <td class="thin" style="border-right: 1px solid black; ">{{her.ocupacion}} <br><br><br></td>
+              </tr>
+              {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="thin" style="border-right: 1px solid black;">-------- NO TIENE HERMANOS ---------</td>
+            </tr>
+            {% endif %}
+          
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE DE CONYUGE</th>
+            <th class="bold" width="5%">EDAD</th>
+            <th class="bold">DOMICILIO</th>
+            <th class="bold">TELÉFONO</th>
+            <th class="bold" width="10%">OCUPACIÓN</th>
+            <th class="bold">LUGAR Y DIRECCIÓN DONDE TRABAJA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if solicitud.nombreconyugue %}
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.nombreconyugue %} {{solicitud.nombreconyugue}}  {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.edadconyugue %} {{solicitud.edadconyugue}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.domicilioconyugue %} {{solicitud.domicilioconyugue}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.telefonoconyugue %} {{solicitud.telefonoconyugue}} | {{solicitud.celularmadre}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" style="border-right: 1px solid black;">{% if solicitud.profesionconyugue %} {{solicitud.profesionconyugue}} {% else %} ** {% endif %}</td>
+
+            <td class="thin" >{% if solicitud.direccionlaboralconyugue %} {{solicitud.direccionlaboralconyugue}} {% else %} ** {% endif %}</td>
+          </tr>
+          {% else %}
+          <tr >
+            <td class="thin" colspan="6">--------- NO APLICA ---------</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE COMPLETO DE HIJOS</th>
+            <th class="bold" width="20%">EDAD</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% if hijo %}
+               {% for hi in hijo %}
+              <tr>
+                <td class="thin" style="border-right: 1px solid black; ">{{hi.nombreshijo}} {{hi.apellidoshijo}}</td>
+                <td class="thin" style="border-right: 1px solid black; ">{{hi.edadhijo}} <br></td>
+
+              </tr>
+              {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="thin" style="border-right: 1px solid black;">-------- NO TIENE HIJOS --------</td>
+            </tr>
+            {% endif %}
+          
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE COMPLETO DE DEPENDIENTES</th>
+            <th class="bold">TIPO DE DEPENDENCIA</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% if depen %}
+               {% for dep in depen %}
+              <tr>
+                <td class="thin" style="border-right: 1px solid black; ">{{dep.nombredependiente}}</td>
+                {% if dep.tipodependencia == 'T' %}
+                  <td class="thin" style="border-right: 1px solid black;">TOTAL</td>
+                {% else %}
+                  <td class="thin" style="border-right: 1px solid black;">PARCIAL <br></td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="thin" style="border-right: 1px solid black;">-------- NO TIENE DEPENDIENTES --------</td>
+            </tr>
+            {% endif %}
+          
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <hr>
+    <h4 class="thin" style="font-size: 1.5em;">III. INFORMACIÓN ECONÓMICA</h4>
+    <hr>
+    <div>
+      <h4 class="bold" style="font-size: 1em;">VIVIENDA</h4>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">VIVE</th>
+            <th class="bold">PAGO POR VIVIENDA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if solicitud.totalamortizacion %}
+              <td class="thin" style="border-right: 1px solid black; ">PROPIETARIO</td>
+              <td class="thin" style="border-right: 1px solid black; ">{{solicitud.totalamortizacion}}</td>
+
+            {% elif solicitud.totalinquilino %}
+              <td class="thin" style="border-right: 1px solid black; ">INQUILINO</td>
+              <td class="thin" style="border-right: 1px solid black; ">{{solicitud.totalinquilino}}</td>
+
+            {% elif solicitud.totalpensionista %}
+              <td class="thin" style="border-right: 1px solid black;">PENSIONISTA</td>
+              <td class="thin" style="border-right: 1px solid black;">{{solicitud.totalpensionista}}</td>
+            {% else %}
+              <td class="thin" style="border-right: 1px solid black;">CON SU FAMILIA</td>
+              <td class="thin" style="border-right: 1px solid black;">NO APLICA</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <h4 class="bold" style="font-size: 1em;">INFORMACIÓN BANCARIA</h4>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">TIPO</th>
+            <th class="bold">CANTIDAD</th>
+            <th class="bold">INSTITUCIÓN</th>
+            <th class="bold">NÚMERO DE CUENTA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if lista_cuentas %}
+            {% for cuenta in lista_cuentas %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">
+                {% if cuenta.tipo_cuenta == 'M' %} DEPÓSITOS MONETARIOS {% elif cuenta.tipo_cuenta == 'A' %} DEPÓSITOS DE AHORRO {% else %}OTROS{% endif %}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{cuenta.cantidad}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{cuenta.institucion}}</td>
+              {% if cuenta.numero_cuenta %}
+              <td class="thin" style="border-right: 1px solid black;">{{cuenta.numero_cuenta}}</td>
+              {% else %}
+              <td class="thin" style="border-right: 1px solid black;">**</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="4">--------- NO TIENE CUENTAS BANCARIAS ---------</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">DEUDAS PEDIENTES</th>
+            <th class="bold">ACREEDOR</th>
+            <th class="bold">ACUANTO ASCIENDE (L.)</th>
+            <th class="bold">CUOTA MENSUAL (L.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if solicitud.deudaspendientes == True %}
+            <td class="thin" style="border-right: 1px solid black;">SI</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.nombreacreedor}}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.montodeuda }}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.cuotamensual }}</td>
+            {% else %}
+            <td class="thin" style="border-right: 1px solid black;">NO</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">HA SIDO EMBARGADO SU SALARIO</th>
+            <th class="bold">POR QUIEN</th>
+            <th class="bold">POR QUE CANTIDAD (L.)</th>
+            <th class="bold">POR QUE MOTIVO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if solicitud.embargado == True %}
+            <td class="thin" style="border-right: 1px solid black;">SI</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.nombrequienembargo}}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.motivoembargo }}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{ solicitud.montoembargo }}</td>
+            {% else %}
+            <td class="thin" style="border-right: 1px solid black;">NO</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">HA MANEJADO VALORES O EFECTIVO</th>
+            <th class="bold">POR QUE CANTIDAD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if solicitud.valoresefectivo == True %}
+            <td class="thin" style="border-right: 1px solid black;">SI</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.montoefectivo}}</td>
+            {% else %}
+            <td class="thin" style="border-right: 1px solid black;">NO</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">TIENES FAMILIARES EN ESTA INSTITUCIÓN</th>
+            <th class="bold">NOMBRE DE FAMILIAR</th>
+            <th class="bold">QUE PARENTESCO TIENE</th>
+            <th class="bold">QUE PUESTO OCUPA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if solicitud.familiaresinstitucion == True %}
+            <td class="thin" style="border-right: 1px solid black;">SI</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.nombrefamiliar}}</td>
+            {% if solicitud.parentesco == 'C' %}
+            <td class="thin" style="border-right: 1px solid black;">Conyuge</td>
+            {% elif solicitud.parentesco == 'H' %}
+            <td class="thin" style="border-right: 1px solid black;">Hijo</td>
+            {% elif solicitud.parentesco == 'I' %}
+            <td class="thin" style="border-right: 1px solid black;">Hijo</td>
+            {% elif solicitud.parentesco == 'P' %}
+            <td class="thin" style="border-right: 1px solid black;">Padre</td>
+            {% elif solicitud.parentesco == 'M' %}
+            <td class="thin" style="border-right: 1px solid black;">Madre</td>
+            {% elif solicitud.parentesco == 'F' %}
+            <td class="thin" style="border-right: 1px solid black;">Familiar</td>
+            {% else %}
+            <td class="thin" style="border-right: 1px solid black;">Otros</td>
+            {% endif %}
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.puestofamiliar}}</td>
+            {% else %}
+            <td class="thin" style="border-right: 1px solid black;">NO</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            <td class="thin" style="border-right: 1px solid black;">**</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">ESTA DISPUESTO A TRABAJAR EN CUALQUIER LUGAR DEL PAÍS?</th>
+            <th class="bold">NOMBRE DE LA PERSONA QUE LO RECOMIENDA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;"> {% if solicitud.trabajarcualquierlugar %} SI {% else %} NO {% endif %}</td>
+            <td class="thin">{% if solicitud.nombrequienrecomienda %} {{solicitud.nombrequienrecomienda}} {% else %} --- DATO NO INGRESADO --- {% endif %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> 
+    <hr>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">PUESTO QUE SOLICITA</th>
+            <th class="bold">QUE SUELDO PRETENDE GANAR</th>
+            <th class="bold">FECHA EN QUE PUEDE INICIAR A LABORAR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.puestoquesolicita}}</td>
+            <td class="thin" style="border-right: 1px solid black;">{{solicitud.sueldopretende}}</td>
+            <td class="thin">{{solicitud.fechainicio}} <br><br><br></td>
+          </tr>
+        </tbody>
+      </table>
+    </div> 
+    <br>
+    <hr>
+    <h4 class="thin" style="font-size: 1.5em;">IV. INFORMACIÓN LABORAL</h4>
+    <div class="left">
+      {% if laboral %}
+        {% for lab in laboral %}
+          <h3 class="thin" style="margin-left: 10px;">{{ lab.nombreempresa }}</h3>
+          <ul class="list-group">
+            <li class="list-group-item"><b class="light">Fecha Ingreso - Fecha Egreso:</b> {{ lab.fechaingreso }} &nbsp; {% if lab.fechaegreso %} {{ lab.fechaegreso }} {% else %}  <b class="light">Hasta la fecha</b>  {% endif %}</li>
+            <li class="list-group-item"><b class="light">Dirección Empresa:</b> {{ lab.direccionempresa }}</li>
+            <li class="list-group-item"><b class="light">Nombre Jefe Inmediato:</b> {{ lab.nombrejefeinmediato }}</li>
+            <li class="list-group-item"><b class="light">Motivo Retiro:</b> {% if lab.motivoretiro %} {{ lab.motivoretiro }}  {% else %} Trabajo Actual {% endif %}</li>
+          </ul>
+        {% endfor %}
+      {% else %}
+      <h5 class="thin">----- NO TIENE EXPERIENCIA LABORAL -----</h5>
+      {% endif %}
+    </div>
+    <br>
+    <hr>
+    <h4 class="thin" style="font-size: 1.5em;">V. INFORMACIÓN ACADÉMICA</h4>
+    <div>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE ESTABLECIMIENTO</th>
+            <th class="bold">ESTUDIOS REALIZADOS</th>
+            <th class="bold">LUGAR</th>
+            <th class="bold">FECHAS</th>
+            <th class="bold">DIPLOMAS O TÍTULOS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if lista_estudios %}
+            {% for estudio in lista_estudios %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">{{estudio.nombreinstitucion}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{estudio.nivelestudios}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{estudio.lugarestudio}}</td>
+              <td class="thin" style="border-right: 1px solid black;" width="15%">{{ estudio.inicio }} - {{ estudio.fin }}</td>
+              <td class="thin" >{% if estudio.tituloobtenido %} {{ estudio.tituloobtenido }} {% endif %}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <h5 class="thin">----- NO TIENE ESTUDIOS REALIZADOS -----</h5>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <h5 class="bold">CURSOS ADICIONALES RECIBIDOS</h5>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">TEMA DEL CURSO</th>
+            <th class="bold">NOMBRE DEL CENTRO DE ESTUDIO</th>
+            <th class="bold">DIRECCIÓN</th>
+            <th class="bold">DURACIÓN</th>
+            <th class="bold">DIPLOMAS O TÍTULOS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if lista_cursos %}
+            {% for curso in lista_cursos %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">{{curso.temacurso}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{curso.nombrecentroestudio}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{curso.direccioncentroestudio}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{ curso.duracion }}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{ curso.titulo }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="5">
+              <h5 class="thin">----- NO SE HA INGRESADO NINGUN CURSO ADICIONAL REALIZADO -----</h5>
+              
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <h5 class="bold">CONOCIMIENTO DE OTROS IDIOMAS</h5>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE IDIOMA</th>
+            <th class="bold">EXPRESIÓN</th>
+            <th class="bold">LECTURA</th>
+            <th class="bold">ESCRITURA</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if lista_idiomas %}
+            {% for idioma in lista_idiomas %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">{{idioma.nombre}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{idioma.habla}} % </td>
+              <td class="thin" style="border-right: 1px solid black;">{{idioma.lectura}} % </td>
+              <td class="thin" >{{idioma.escritura}} %</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="5">
+              <h5 class="thin">----- NO SE HA INGRESADO OTRO IDIOMA -----</h5>
+              
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <br><br>
+    <hr>
+    <h4 class="thin" style="font-size: 1.5em;">VI. REFERENCIAS</h4>
+    <hr>
+    <div>
+      <h5 class="bold">REFERENCIAS LABORALES</h5>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE</th>
+            <th class="bold">PROFESIÓN</th>
+            <th class="bold">DIRECCIÓN</th>
+            <th class="bold">TELÉFONO</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if rlaboral %}
+            {% for lab in rlaboral %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">{{lab.nombrecompleto}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{lab.profesion}} </td>
+              <td class="thin" style="border-right: 1px solid black;">{{lab.direccion}} </td>
+              <td class="thin" >{{lab.telefono}} </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="4">
+              <h5 class="thin">----- NO TIENE EXPERIENCIAS LABORALES  -----</h5>
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <h5 class="bold">REFERENCIAS PERSONALES</h5>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">NOMBRE</th>
+            <th class="bold">PROFESIÓN</th>
+            <th class="bold">DIRECCIÓN</th>
+            <th class="bold">TELÉFONO</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if personal %}
+            {% for perso in personal %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">{{perso.nombre_personal}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{perso.profesion_personal}}</td>
+              <td class="thin" style="border-right: 1px solid black;">{{perso.direccion_personal}}</td>
+              <td class="thin" >{{perso.telefono_personal}}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="4">
+              <h5 class="thin">----- NO TIENE EXPERIENCIAS LABORALES  -----</h5>
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div>
+      <h5 class="bold">HABILIDADES</h5>
+      <table class="table" >
+        <thead>
+          <tr>
+            <th class="bold">HABILIDAD</th>
+            <th class="bold">PROCENTAJE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if lista_habilidades %}
+            {% for habi in lista_habilidades %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">{{habi.nombre_habilidad}}</td>
+              <td class="thin">{{habi.porcentaje}}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="4">
+              <h5 class="thin">----- NO SE HAN INGRESADO HABILIDADES  -----</h5>
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div class="left">
+      <table class="table" align="left" >
+        <thead>
+          <tr>
+            <th class="bold">COMPETENCIAS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if lista_competencias %}
+            {% for com in lista_competencias %}
+            <tr>
+              <td class="thin" style="border-right: 1px solid black;">{{com.nombre_competencia}}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="4">
+              <h5 class="thin">----- NO SE HA SELECCIONADO COMPETENCIAS  -----</h5>
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr>
+  </div>
+</body>
